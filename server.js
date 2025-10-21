@@ -48,9 +48,9 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-// Serve homepage
+// ✅ Root route for Render health check
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.send('✅ Smart AQMS backend is running.');
 });
 
 // Signup route
