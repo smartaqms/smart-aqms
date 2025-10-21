@@ -1,5 +1,6 @@
+// Fetch latest sensor readings
 function updateSensorData() {
-  fetch('/api/sensors')
+  fetch('https://smartaqms.onrender.com/api/sensors')
     .then(response => response.json())
     .then(data => {
       document.getElementById('aqi').textContent = data.aqi;
@@ -13,19 +14,23 @@ function updateSensorData() {
     });
 }
 
+// Fetch disease prediction
 function updatePrediction() {
-  fetch('/api/predict')
+  fetch('https://smartaqms.onrender.com/api/predict')
     .then(response => response.json())
     .then(data => {
       document.getElementById('risk').textContent = data.risk;
+      document.getElementById('disease').textContent = data.disease;
+      document.getElementById('cure').textContent = data.cure;
     })
     .catch(error => {
       console.error('Error fetching prediction:', error);
     });
 }
 
+// Fetch historical data and render chart
 function updateChart() {
-  fetch('/api/history')
+  fetch('https://smartaqms.onrender.com/api/history')
     .then(response => response.json())
     .then(data => {
       const timestamps = data.map(entry => new Date(entry.timestamp).toLocaleTimeString());
@@ -66,33 +71,10 @@ function updateChart() {
     });
 }
 
-function handleLogin() {
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
-
-  fetch('/api/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, password })
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        document.getElementById('loginStatus').textContent = 'Login successful!';
-        document.getElementById('loginStatus').style.color = 'green';
-      } else {
-        document.getElementById('loginStatus').textContent = 'Login failed.';
-        document.getElementById('loginStatus').style.color = 'red';
-      }
-    })
-    .catch(error => {
-      console.error('Login error:', error);
-    });
-}
-
+// Setup CSV download button
 function setupDownloadButton() {
   document.getElementById('downloadBtn').addEventListener('click', () => {
-    window.location.href = '/api/export';
+    window.location.href = 'https://smartaqms.onrender.com/api/export';
   });
 }
 
@@ -108,6 +90,3 @@ setInterval(() => {
   updatePrediction();
   updateChart();
 }, 10000);
-
-// Login button listener
-document.getElementById('loginBtn').addEventListener('click', handleLogin);

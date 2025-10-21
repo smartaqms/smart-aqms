@@ -9,7 +9,7 @@ const path = require('path');
 const nodemailer = require('nodemailer');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors());
@@ -48,7 +48,7 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-// Serve signup page as homepage
+// Serve homepage
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
@@ -119,7 +119,6 @@ app.get('/api/predict', (req, res) => {
       disease = 'Asthma, Bronchitis, COPD';
       cure = 'Avoid outdoor activities. Use N95 masks. Use inhalers or consult a doctor.';
 
-      // Send email to opted-in users
       db.query('SELECT email FROM users WHERE alerts_enabled = TRUE', (err, users) => {
         if (!err && users.length > 0) {
           users.forEach(user => {
@@ -148,7 +147,6 @@ app.get('/api/predict', (req, res) => {
               }
             });
 
-            // Log alert
             db.query(
               'INSERT INTO email_alerts (email, aqi, risk_level, disease, cure) VALUES (?, ?, ?, ?, ?)',
               [user.email, aqi, risk, disease, cure]

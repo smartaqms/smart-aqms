@@ -153,6 +153,12 @@ canvas {
   border-radius: 6px;
 }
 
+.auth-box input:focus {
+  outline: none;
+  border-color: #00796b;
+  box-shadow: 0 0 5px rgba(0,121,107,0.3);
+}
+
 .auth-box button {
   padding: 10px 20px;
   background-color: #00796b;
@@ -164,6 +170,11 @@ canvas {
 
 .auth-box button:hover {
   background-color: #004d40;
+}
+
+.auth-box button:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(0,121,107,0.3);
 }
 
 .auth-box p {
@@ -181,4 +192,20 @@ canvas {
 
 .link-button:hover {
   text-decoration: underline;
+}
+
+/* Responsive tweaks */
+@media (max-width: 480px) {
+  .auth-box {
+    margin: 30px 10px;
+    padding: 20px;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #downloadBtn {
+    width: 100%;
+  }
 }

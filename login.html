@@ -2,14 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - Smart AQMS</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="auth-box">
     <h2>Login to Your Account</h2>
-    <input type="email" id="loginEmail" placeholder="Email">
-    <input type="password" id="loginPassword" placeholder="Password">
+    <input type="email" id="loginEmail" placeholder="Email" required>
+    <input type="password" id="loginPassword" placeholder="Password" required>
     <button onclick="handleLogin()">Login</button>
     <p id="loginStatus"></p>
     <p>New user? <a href="index.html" class="link-button">Sign up here</a></p>
@@ -17,7 +18,7 @@
 
   <script>
     function handleLogin() {
-      const email = document.getElementById('loginEmail').value;
+      const email = document.getElementById('loginEmail').value.trim();
       const password = document.getElementById('loginPassword').value;
 
       fetch('https://smartaqms.onrender.com/api/login', {

@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Signup - Smart AQMS</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -10,9 +11,9 @@
     <h1>Welcome to Smart Air Quality Monitoring System</h1>
     <p>Track air quality, predict health risks, and stay safe.</p>
     <h2>Create Your Account</h2>
-    <input type="email" id="signupEmail" placeholder="Email">
-    <input type="password" id="signupPassword" placeholder="Password (min 8 chars)">
-    <input type="password" id="confirmPassword" placeholder="Confirm Password">
+    <input type="email" id="signupEmail" placeholder="Email" required>
+    <input type="password" id="signupPassword" placeholder="Password (min 8 chars)" required>
+    <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
     <button onclick="handleSignup()">Sign Up</button>
     <p id="signupStatus"></p>
     <p>Already have an account? <a href="login.html" class="link-button">Login here</a></p>
@@ -20,7 +21,7 @@
 
   <script>
     function handleSignup() {
-      const email = document.getElementById('signupEmail').value;
+      const email = document.getElementById('signupEmail').value.trim();
       const password = document.getElementById('signupPassword').value;
       const confirm = document.getElementById('confirmPassword').value;
 
