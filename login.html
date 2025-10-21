@@ -12,7 +12,7 @@
     <input type="password" id="loginPassword" placeholder="Password">
     <button onclick="handleLogin()">Login</button>
     <p id="loginStatus"></p>
-    <p>New user? <a href="/" class="link-button">Sign up here</a></p>
+    <p>New user? <a href="index.html" class="link-button">Sign up here</a></p>
   </div>
 
   <script>
@@ -20,7 +20,7 @@
       const email = document.getElementById('loginEmail').value;
       const password = document.getElementById('loginPassword').value;
 
-      fetch('/api/login', {
+      fetch('https://smartaqms.onrender.com/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
@@ -28,10 +28,13 @@
       .then(res => res.json())
       .then(data => {
         if (data.success) {
-          window.location.href = '/index.html';
+          window.location.href = "dashboard.html";
         } else {
           document.getElementById('loginStatus').textContent = data.message;
         }
+      })
+      .catch(() => {
+        document.getElementById('loginStatus').textContent = 'Server error. Please try again later.';
       });
     }
   </script>

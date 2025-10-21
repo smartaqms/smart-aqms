@@ -15,7 +15,7 @@
     <input type="password" id="confirmPassword" placeholder="Confirm Password">
     <button onclick="handleSignup()">Sign Up</button>
     <p id="signupStatus"></p>
-    <p>Already have an account? <a href="/login.html" class="link-button">Login here</a></p>
+    <p>Already have an account? <a href="login.html" class="link-button">Login here</a></p>
   </div>
 
   <script>
@@ -29,7 +29,7 @@
         return;
       }
 
-      fetch('/api/signup', {
+      fetch('https://smartaqms.onrender.com/api/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
@@ -37,10 +37,13 @@
       .then(res => res.json())
       .then(data => {
         if (data.success) {
-          window.location.href = '/login.html';
+          window.location.href = "login.html";
         } else {
           document.getElementById('signupStatus').textContent = data.message;
         }
+      })
+      .catch(() => {
+        document.getElementById('signupStatus').textContent = 'Server error. Please try again later.';
       });
     }
   </script>
