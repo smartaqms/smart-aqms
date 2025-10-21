@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Smart AQMS</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="auth-box">
+    <h2>Login to Your Account</h2>
+    <input type="email" id="loginEmail" placeholder="Email">
+    <input type="password" id="loginPassword" placeholder="Password">
+    <button onclick="handleLogin()">Login</button>
+    <p id="loginStatus"></p>
+    <p>New user? <a href="/" class="link-button">Sign up here</a></p>
+  </div>
+
+  <script>
+    function handleLogin() {
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+
+      fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          window.location.href = '/dashboard.html';
+        } else {
+          document.getElementById('loginStatus').textContent = data.message;
+        }
+      });
+    }
+  </script>
+</body>
+</html>

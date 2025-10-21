@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Signup - Smart AQMS</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="auth-box">
+    <h1>Welcome to Smart Air Quality Monitoring System</h1>
+    <p>Track air quality, predict health risks, and stay safe.</p>
+    <h2>Create Your Account</h2>
+    <input type="email" id="signupEmail" placeholder="Email">
+    <input type="password" id="signupPassword" placeholder="Password (min 8 chars)">
+    <input type="password" id="confirmPassword" placeholder="Confirm Password">
+    <button onclick="handleSignup()">Sign Up</button>
+    <p id="signupStatus"></p>
+    <p>Already have an account? <a href="/login.html" class="link-button">Login here</a></p>
+  </div>
+
+  <script>
+    function handleSignup() {
+      const email = document.getElementById('signupEmail').value;
+      const password = document.getElementById('signupPassword').value;
+      const confirm = document.getElementById('confirmPassword').value;
+
+      if (!email || password.length < 8 || password !== confirm) {
+        document.getElementById('signupStatus').textContent = 'Invalid input. Please check all fields.';
+        return;
+      }
+
+      fetch('/api/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          window.location.href = '/login.html';
+        } else {
+          document.getElementById('signupStatus').textContent = data.message;
+        }
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Smart Air Quality Monitoring System</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Smart Air Quality Monitoring System</h1>
+    <p class="subtitle">Real-time environmental monitoring with health insights</p>
+  </header>
+
+  <main>
+    <section class="card-grid">
+      <div class="card"><h2>AQI</h2><p id="aqi">Loading...</p></div>
+      <div class="card"><h2>Humidity</h2><p id="humidity">Loading...</p></div>
+      <div class="card"><h2>Temperature</h2><p id="temperature">Loading...</p></div>
+      <div class="card"><h2>CO₂ PPM</h2><p id="co2">Loading...</p></div>
+      <div class="card"><h2>NO₂ PPM</h2><p id="no2">Loading...</p></div>
+      <div class="card prediction"><h2>Disease Risk</h2><p id="risk">Loading...</p></div>
+      <div class="card disease"><h2>Possible Disease</h2><p id="disease">Loading...</p></div>
+      <div class="card cure"><h2>Suggested Cure</h2><p id="cure">Loading...</p></div>
+    </section>
+
+    <section class="chart-section">
+      <h2>Sensor Trends</h2>
+      <canvas id="aqiChart" width="600" height="300"></canvas>
+      <button id="downloadBtn">Download CSV</button>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
