@@ -11,9 +11,11 @@ const nodemailer = require('nodemailer');
 const app = express();
 const port = 3000;
 
+// Middleware
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(__dirname)); // Serve static files from root
 
 app.use(session({
   secret: 'your_secret_key',
@@ -46,9 +48,9 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-// Serve signup page first
+// Serve signup page as homepage
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'signup.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Signup route
@@ -64,12 +66,16 @@ app.post('/api/signup', (req, res) => {
     }
 
     const passwordHash = bcrypt.hashSync(password, 10);
-    db.query('INSERT INTO users (email, password, alerts_enabled) VALUES (?, ?, ?)', [email, passwordHash, true], (err) => {
-      if (err) {
-        return res.json({ success: false, message: 'Signup failed.' });
+    db.query(
+      'INSERT INTO users (email, password, alerts_enabled) VALUES (?, ?, ?)',
+      [email, passwordHash, true],
+      (err) => {
+        if (err) {
+          return res.json({ success: false, message: 'Signup failed.' });
+        }
+        res.json({ success: true });
       }
-      res.json({ success: true });
-    });
+    );
   });
 });
 
@@ -184,6 +190,7 @@ app.get('/api/export', (req, res) => {
   });
 });
 
+// Start server
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+  console.log(`✅ Server running at http://localhost:${port}`);
 });
