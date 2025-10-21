@@ -15,7 +15,7 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname)); // Serve static files from root
+app.use(express.static(__dirname));
 
 app.use(session({
   secret: 'your_secret_key',
@@ -23,28 +23,28 @@ app.use(session({
   saveUninitialized: true
 }));
 
-// MySQL connection
+// ✅ MySQL connection (use environment variables for Render)
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'Prakash@123',
-  database: 'smart_air_quality'
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASS || 'Prakash@123',
+  database: process.env.DB_NAME || 'smart_air_quality'
 });
 
 db.connect((err) => {
   if (err) {
-    console.error('Database connection failed:', err);
+    console.error('❌ Database connection failed:', err.message);
   } else {
-    console.log('Connected to MySQL database');
+    console.log('✅ Connected to MySQL database');
   }
 });
 
-// Email transporter setup
+// ✅ Email transporter
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'smartairqualitymonitorsystem@gmail.com',
-    pass: 'adrv yafl xdax xjan' // Gmail App Password
+    pass: 'adrv yafl xdax xjan'
   }
 });
 
@@ -53,7 +53,7 @@ app.get('/', (req, res) => {
   res.send('✅ Smart AQMS backend is running.');
 });
 
-// Signup route
+// Signup
 app.post('/api/signup', (req, res) => {
   const { email, password } = req.body;
   if (!email || password.length < 8) {
@@ -79,7 +79,7 @@ app.post('/api/signup', (req, res) => {
   });
 });
 
-// Login route
+// Login
 app.post('/api/login', (req, res) => {
   const { email, password } = req.body;
   db.query('SELECT * FROM users WHERE email = ?', [email], (err, results) => {
@@ -102,7 +102,7 @@ app.get('/api/sensors', (req, res) => {
   });
 });
 
-// Disease prediction + email alert + logging
+// Prediction + email alert
 app.get('/api/predict', (req, res) => {
   db.query('SELECT * FROM sensor_data ORDER BY timestamp DESC LIMIT 1', (err, results) => {
     if (err || results.length === 0) {
@@ -160,7 +160,7 @@ app.get('/api/predict', (req, res) => {
   });
 });
 
-// Historical data
+// History
 app.get('/api/history', (req, res) => {
   db.query('SELECT * FROM sensor_data ORDER BY timestamp DESC LIMIT 20', (err, results) => {
     if (err) {
@@ -190,5 +190,5 @@ app.get('/api/export', (req, res) => {
 
 // Start server
 app.listen(port, () => {
-  console.log(`✅ Server running at http://localhost:${port}`);
+  console.log(`✅ Server running on port ${port}`);
 });
